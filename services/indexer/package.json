@@ -1,0 +1,27 @@
+{
+  "name": "zszh-indexer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Node/TS pipeline: TEI-XML → Meilisearch + HTML render + IIIF v3 manifests",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "index": "tsx src/main.ts",
+    "typecheck": "tsc --noEmit",
+    "sync-krdb": "cp ../../apps/web/src/lib/server/krdbMatch.ts ../../apps/web/src/lib/server/data/krdb-register.json src/krdb/",
+    "sync-entity-key": "cp ../../apps/web/src/lib/entityKey.ts src/vendor/",
+    "sync-rat": "cp ../../apps/web/src/lib/server/data/rat-register.json src/rat/",
+    "test": "tsx --test src/*.test.ts"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^4.5.1",
+    "meilisearch": "^0.45.0",
+    "tsx": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.2"
+  }
+}

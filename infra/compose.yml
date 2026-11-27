@@ -1,0 +1,83 @@
+name: zszh
+
+# Lokales Dev-Setup. Aufruf aus dem Repo-Root:
+#   docker compose -f infra/compose.yml up -d meili embed
+# SvelteKit lokal nativ:
+#   cd apps/web && npm run dev
+# Indexer lokal nativ:
+#   cd services/indexer && npm run index -- --limit=50
+
+services:
+  meili:
+    # Image über MEILI_IMAGE (infra/.env), damit ein Versionswechsel nicht mit dem
+    # Sync der Compose-Dateien (frontend-deploy.yml) auf den Server kommt: Meili
+    # startet eine Datenbank einer älteren Version nur mit MEILI_UPGRADE_DB=true,
+    # ein `up -d meili` mit neuem Image legte die Suche sonst lahm. Upgrade-Ablauf:
+    # infra/meili-upgrade/README.md. Seit dem Upgrade 2026-11 v1.57.0 (exakt gepinnt; v1.54–
+    # v1.56.2 meiden, Regression #6731). Eine lokale v1.13-Datenbank startet einmal mit
+    # MEILI_UPGRADE_DB=true.
+    image: ${MEILI_IMAGE:-getmeili/meilisearch:v1.57.0}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:7700:7700"
+    environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-dev_master_key_change_me}
+      MEILI_ENV: ${MEILI_ENV:-development}
+      MEILI_NO_ANALYTICS: "true"
+      # Nur für den Start nach einem Versionswechsel auf true (Dumpless-Upgrade, ab
+      # v1.51 stabil). Leer lehnt Meili ab (nur true/false), v1.13 ignoriert die
+      # Variable. Auf einer schon aktuellen Datenbank ist true ein No-op.
+      MEILI_UPGRADE_DB: ${MEILI_UPGRADE_DB:-false}
+      # Default-Limit ist 95 MiB. Voll-Sitzungs-Protokolle (KRP-Gever) haben
+      # grosse Bodies → ein Indexer-Batch (MEILI_BATCH) sprengt 95 MiB. 1 GiB
+      # gibt Headroom. Greift in allen Umgebungen (prod/coexist erben von hier).
+      MEILI_HTTP_PAYLOAD_SIZE_LIMIT: ${MEILI_HTTP_PAYLOAD_SIZE_LIMIT:-1073741824}
+    # Docker-Default (soft 1024) reicht nicht für den arroy-Vektor-Build: der
+    # qwen3_06b-Settings-Task über 1.29M Chunk-Vektoren starb mit »No file
+    # descriptors available (os error 24)« (2026-09-04). 524288 = Hard-Cap.
+    ulimits:
+      nofile:
+        soft: 524288
+        hard: 524288
+    volumes:
+      - meili_data:/meili_data
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://127.0.0.1:7700/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+  embed:
+    build:
+      context: ../services/embed
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8001:8001"
+    environment:
+      ZSZH_MODEL: ${ZSZH_MODEL:-jinaai/jina-embeddings-v2-base-de}
+      HF_HOME: /cache/huggingface
+      TOKENIZERS_PARALLELISM: "false"
+    volumes:
+      - hf_cache:/cache/huggingface
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8001/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 90s
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+  # Production-Services (caddy, web) werden in compose.prod.yml als Override ergänzt.
+
+volumes:
+  meili_data:
+  hf_cache:

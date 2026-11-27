@@ -1,0 +1,5 @@
+node_modules/
+# Export, NER-Spans, Katalog-Dokumente und Reports – Arbeitsdaten mit
+# Staatsarchiv-Material, nicht committen.
+output/
+__pycache__/

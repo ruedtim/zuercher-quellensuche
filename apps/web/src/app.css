@@ -1,0 +1,446 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Tailwind-v4-Preflight setzt cursor:default auf Buttons – für klickbare
+   Elemente einheitlich Pointer (Links haben ihn nativ). */
+@layer base {
+	button:not(:disabled),
+	[role="button"]:not(:disabled) {
+		cursor: pointer;
+	}
+}
+
+/* Höhe des klebenden Kopfs nach dem Scrollen (Stile in +layout.svelte): Abstand für
+   Sprungmarken, scrollIntoView und klebende Spalten (Faksimile). */
+@layer base {
+	:root {
+		--sticky-top: 5.0625rem;
+		scroll-padding-top: var(--sticky-top);
+	}
+	@media (max-width: 999px) {
+		:root {
+			--sticky-top: 4.25rem;
+		}
+	}
+	/* Handy: Untertitel auf zwei Zeilen (Safari nimmt eine breitere Serifenschrift und bricht
+	   bis rund 440 px um, darum mit Reserve) */
+	@media (max-width: 479px) {
+		:root {
+			--sticky-top: 4.625rem;
+		}
+	}
+}
+
+@theme {
+	--font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+	--font-serif: "Source Serif", ui-serif, Georgia, serif;
+	/* Plakatschrift (nur Versalien): Seitenname, Menü, feste Seitentitel, Hauptknöpfe, Kürzel.
+	   Nie für Inhalte – lange Titel in Versalien sind schlecht lesbar. */
+	--font-display: "Bebas Neue", "Arial Narrow", "Roboto Condensed", sans-serif;
+
+	/* Gestaltung «Plakat» (Tim 2026-11-24, nach ruediger.broker): neutrale Flächen, Druckschwarz,
+	   Pink als Akzent, das Rosa des Froschs (Icon) als Linie im Kopf. Kontraste nach WCAG 2.2 AA, gemessen in
+	   theme.test.ts: Text ab 400 auf 50 und Weiss ≥ 4.5, Formularränder (300) ≥ 3. */
+	--color-zszh-50: #f6f5f2;
+	--color-zszh-100: #e9e7e1;
+	--color-zszh-200: #cfccc4;
+	--color-zszh-300: #87847b;
+	--color-zszh-400: #6c6962;
+	--color-zszh-500: #605d57;
+	--color-zszh-600: #4c4a45;
+	--color-zszh-700: #33312d;
+	--color-zszh-800: #1d1b19;
+	--color-zszh-900: #0d0b12;
+
+	--color-accent-200: #ffc2d8;
+	--color-accent-500: #d4145a;
+	--color-accent-600: #a80f48;
+	--color-accent-700: #7d0b36;
+	--color-line: #eaacbf;
+
+	/* kantig statt rund */
+	--radius: 2px;
+	--radius-sm: 2px;
+	--radius-md: 2px;
+	--radius-lg: 3px;
+}
+
+/* Bebas Neue von Ryoichi Tsunekawa (Dharma Type), SIL Open Font License 1.1
+   (static/fonts/BebasNeue-OFL.txt), selbst ausgeliefert: kein Abruf bei Dritten. */
+@font-face {
+	font-family: "Bebas Neue";
+	src: url("/fonts/bebas-neue-latin.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+
+@layer base {
+	::selection {
+		background: var(--color-accent-200);
+		color: var(--color-zszh-900);
+	}
+	/* Sichtbarer Tastaturfokus, auch auf dunklem Grund (Kopf, Startseite): currentColor. */
+	:focus-visible {
+		outline: 2px solid currentColor;
+		outline-offset: 2px;
+	}
+	/* Treffer im Text: helles Rosa, Schrift behält ihre Farbe. */
+	mark {
+		background-color: #ffd9e6;
+		color: inherit;
+	}
+	/* Antippbare Kästchen: Zeile mindestens 24 px hoch (WCAG 2.5.8). */
+	label:has(> input[type="checkbox"], > input[type="radio"]) {
+		min-height: 1.5rem;
+	}
+}
+
+@layer components {
+	/* Trefferzeile: Linie statt Kasten. Beim Überfahren und Fokus wird der Titel unterstrichen. */
+	.hit-row {
+		position: relative;
+		border-top: 1px solid var(--color-zszh-900);
+	}
+	/* Titel als Link, dessen Fläche die ganze Zeile deckt (das Elternelement ist relative): So
+	   lesen Screenreader als Linkname nur den Titel vor, nicht den ganzen Auszug. Weitere Links
+	   der Zeile liegen mit .hit-more darüber. */
+	.hit-link {
+		display: block;
+		min-height: 1.5rem;
+	}
+	.hit-link::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+	}
+	.hit-link:focus-visible {
+		outline: none;
+	}
+	.hit-link:focus-visible::after {
+		outline: 2px solid currentColor;
+		outline-offset: 2px;
+	}
+	.hit-more {
+		position: relative;
+		z-index: 1;
+	}
+	.hit-row:hover h3,
+	.hit-row:focus-within h3 {
+		text-decoration: underline;
+		text-decoration-color: var(--color-accent-500);
+		text-decoration-thickness: 2px;
+		text-underline-offset: 3px;
+	}
+	/* Tabellen der Markdown-Seiten (Rahmen: rehypeTableScroll in svelte.config.js) */
+	.table-scroll {
+		overflow-x: auto;
+	}
+	/* Lange Adressen im Fliesstext umbrechen; in Tabellen rollt der Rahmen. */
+	.prose :is(p, li, dd) code {
+		overflow-wrap: anywhere;
+	}
+	/* Sprung zum Inhalt: erst mit der Tabulatortaste sichtbar. */
+	.skip-link {
+		position: fixed;
+		top: 0.5rem;
+		left: 0.5rem;
+		z-index: 60;
+		padding: 0.55rem 0.9rem;
+		background: #fff;
+		color: var(--color-zszh-900);
+		font-weight: 600;
+		border: 2px solid var(--color-zszh-900);
+		transform: translateY(-300%);
+	}
+	.skip-link:focus {
+		transform: none;
+	}
+	/* Serien- und Editionskürzel */
+	.badge-code {
+		display: inline-block;
+		padding: 0.2rem 0.45rem 0.12rem;
+		background: var(--color-zszh-900);
+		color: #fff;
+		font-family: var(--font-display);
+		font-size: 0.95rem;
+		line-height: 1.1;
+		letter-spacing: 0.06em;
+	}
+}
+
+/* Editionstexte (Reiter «Editionen») in Junicode wie auf der QZH-Website: die kombinierenden
+   Zeichen des Frühneuhochdeutschen (uͤ, uͦ, oͧ, aͣ …) fehlen den Systemschriften oft (Kästchen),
+   und ein Cluster aus Buchstabe und Zeichen braucht eine Schrift. Teilmengen (Latein,
+   kombinierende Zeichen, Satzzeichen, Münz- und Masszeichen; je ~60 KB) der Junicode von
+   Peter S. Baker, SIL Open Font License 1.1 (static/fonts/Junicode-OFL.txt). */
+@font-face {
+	font-family: "ZSZH Junicode";
+	src: url("/fonts/junicode-regular.woff2") format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "ZSZH Junicode";
+	src: url("/fonts/junicode-bold.woff2") format("woff2");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "ZSZH Junicode";
+	src: url("/fonts/junicode-italic.woff2") format("woff2");
+	font-weight: 400;
+	font-style: italic;
+	font-display: swap;
+}
+
+/* TEI-spezifische Styles, die der Indexer in /render/*.html ausliefert */
+@layer components {
+	.tei {
+		@apply font-serif leading-relaxed text-zinc-800;
+	}
+	.tei-title {
+		@apply text-2xl font-bold mt-0 mb-2 text-zszh-900;
+	}
+	.tei-bibl {
+		@apply text-sm text-zinc-600 border-l-4 border-zszh-200 pl-3 my-4;
+	}
+	/* In der Doc-Detailansicht stellen wir Titel + Bibliographie im SvelteKit-Header
+	   bereits prominent dar – daher die ins Render-HTML eingebauten Wiederholungen
+	   ausblenden. Bei Such-Ergebnissen und externen Embeds bleiben sie sichtbar. */
+	.tei-document-body .tei > .tei-title,
+	.tei-document-body .tei > .tei-bibl {
+		display: none;
+	}
+	.tei-text p {
+		@apply my-3;
+	}
+	/* Body-Subheadings (TEI <head>): bold, serif, kleiner als der Doc-Titel.
+	   Tailwind/Browser-Default für h2/h3 lässt sie sonst entweder zu groß oder
+	   ohne Bold erscheinen – und im Tailwind-Typography-Plugin-Kontext sind
+	   Default-Heading-Gewichte nicht garantiert. */
+	.tei-head {
+		@apply font-serif font-bold mt-6 mb-3 leading-tight text-zszh-900;
+	}
+	h2.tei-head { @apply text-xl; }
+	h3.tei-head { @apply text-lg; }
+	h4.tei-head { @apply text-base; }
+	/* Seitenwechsel-Marker. Eigener Block mit etwas Abstand – alte Variante
+	   mit h-0 + invisible + ::before align-top ragte in den nächsten Text,
+	   wenn der pb mitten in einem <p> stand. */
+	.tei-pb {
+		@apply block font-sans text-xs text-zinc-400 my-3 select-none cursor-pointer hover:text-accent-600;
+	}
+	.tei-pb::before {
+		content: "[" attr(data-n) "]";
+	}
+	.tei-lb {
+		@apply hidden;
+	}
+	.tei-person,
+	.tei-place,
+	.tei-org {
+		@apply underline decoration-dotted decoration-zszh-300 underline-offset-2 cursor-pointer;
+	}
+	/* Type-spezifische Hover-Farben – visuelles Affordance für Klickbarkeit
+	   und gleichzeitiges Lernsignal "drei verschiedene Entity-Klassen". */
+	.tei-person:hover { background-color: hsl(45 80% 92%); }
+	.tei-place:hover  { background-color: hsl(170 50% 92%); }
+	.tei-org:hover    { background-color: hsl(220 50% 94%); }
+	/* Zugeordnete Person (PersonMentions: Kantonsratsdatenbank, Kleiner Rat mit GND):
+	   durchgezogen statt gepunktet unterstrichen – Hover/Klick zeigt die Personenkarte. */
+	.tei-person[data-mention] {
+		@apply decoration-solid decoration-accent-500/60 rounded-sm;
+	}
+	.tei-person[data-mention]:focus-visible {
+		@apply outline-2 outline-offset-1 outline-accent-500;
+	}
+	/* «im Text» im Tab «Personen»: alle Nennungen kurz hervorheben. */
+	.tei-person--flash {
+		animation: krdb-flash 2.4s ease-out;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.tei-person--flash {
+			animation: none;
+			background-color: hsl(45 80% 85%);
+		}
+	}
+	.tei-table {
+		@apply border-collapse my-3;
+	}
+	.tei-table td,
+	.tei-table th {
+		@apply border border-zinc-300 px-2 py-1;
+	}
+	.tei-note {
+		@apply text-sm text-zinc-600 border-l-2 border-zinc-300 pl-2 my-2;
+	}
+	/* Marginalie (TEI <add place="margin…"|type="marginal">): Randnotiz neben
+	   dem Absatz – klein, serifenlos, gedämpft. Sie steht im Quelltext am
+	   Absatzende; float-right zieht sie an dessen rechte Seite. Auf schmalen
+	   Viewports kein Rand → abgesetzter Block statt Float. */
+	.tei-marginal {
+		@apply block float-right clear-right w-32 md:w-40 ml-4 mb-1 text-xs font-sans not-italic text-zszh-500 leading-snug;
+	}
+	@media (max-width: 640px) {
+		.tei-marginal {
+			@apply float-none w-auto ml-0 border-l-2 border-zszh-200 pl-2 text-zszh-600;
+		}
+	}
+	.tei-archive-link {
+		@apply text-accent-600 underline;
+	}
+	/* Unsichere Lesung (TEI <unclear>, v. a. in der maschinellen Transkription
+	   der Ratsmanuale): gedämpft, Text bleibt lesbar. */
+	.tei-unclear {
+		@apply text-zszh-500;
+	}
+
+	/* Editionen (/editionen/<edition>/<id>): HTML aus services/catalog editionTei.ts. */
+	/* Text, Anmerkungen und Schreibungen der Vorlage in Junicode (kombinierende Zeichen). */
+	.ed-text,
+	.ed-notes li,
+	.ed-form {
+		font-family: "ZSZH Junicode", var(--font-serif);
+	}
+	.ed-text {
+		@apply leading-relaxed text-zinc-800;
+	}
+	.ed-text p {
+		@apply my-3;
+	}
+	.ed-head {
+		@apply font-serif font-bold mt-6 mb-3 leading-tight text-zszh-900;
+	}
+	h3.ed-head { @apply text-lg; }
+	h4.ed-head { @apply text-base; }
+	.ed-head-orig {
+		@apply italic text-zszh-700 my-2;
+	}
+	/* Seitenwechsel der Vorlage; mit Bild klickbar (blättert das Faksimile). */
+	.ed-pb {
+		@apply inline-block font-sans text-xs text-zinc-400 mx-0.5 select-none;
+	}
+	.ed-pb::before { content: "["; }
+	.ed-pb::after { content: "]"; }
+	.ed-pb[data-facs] {
+		@apply cursor-pointer hover:text-accent-600;
+	}
+	/* Zeilenfall der Vorlage: aus, auf Wunsch als | (Schalter «Zeilenfall der Vorlage»). */
+	.ed-lb {
+		@apply hidden;
+	}
+	.show-lb .ed-lb {
+		@apply inline font-sans text-xs text-zinc-400;
+	}
+	.show-lb .ed-lb::before { content: "|"; }
+	.ed-note-ref {
+		@apply font-sans text-[0.7em] leading-none;
+	}
+	.ed-note-ref a {
+		@apply text-accent-600 no-underline px-px hover:underline;
+	}
+	.ed-note-critical a {
+		@apply italic;
+	}
+	/* Namen sind anklickbar, wenn sie einen Filterwert tragen (data-name, in Text, Regest,
+	   Anmerkungen und Kommentar); Indexstände ohne data-name nur im Haupttext (.ed-main). */
+	:is(.ed-person, .ed-place, .ed-org)[data-name],
+	.ed-main :is(.ed-person, .ed-place, .ed-org) {
+		@apply underline decoration-dotted decoration-zszh-300 underline-offset-2 cursor-pointer;
+	}
+	.ed-person[data-name]:hover, .ed-main .ed-person:hover { background-color: hsl(45 80% 92%); }
+	.ed-place[data-name]:hover, .ed-main .ed-place:hover   { background-color: hsl(170 50% 92%); }
+	.ed-org[data-name]:hover, .ed-main .ed-org:hover       { background-color: hsl(220 50% 94%); }
+	.ed-abbr,
+	.ed-corr,
+	.ed-orig,
+	.ed-sign {
+		@apply no-underline cursor-help;
+		text-decoration-line: underline;
+		text-decoration-style: dotted;
+		text-decoration-color: var(--color-zszh-400);
+	}
+	.ed-del {
+		@apply line-through text-zszh-500;
+	}
+	.ed-add {
+		@apply no-underline text-emerald-900;
+	}
+	.ed-unclear,
+	.ed-gap,
+	.ed-supplied {
+		@apply text-zszh-500;
+	}
+	.ed-sic {
+		@apply font-sans text-xs text-zszh-500 ml-0.5;
+	}
+	.ed-framed {
+		@apply border border-zszh-400 px-0.5;
+	}
+	.ed-q {
+		quotes: "«" "»" "‹" "›";
+	}
+	.ed-ab {
+		@apply my-3 text-sm border-l-2 border-zszh-200 pl-3 text-zszh-700;
+	}
+	.ed-ab-label {
+		@apply font-sans text-xs uppercase tracking-wide text-zszh-500;
+	}
+	.ed-table {
+		@apply border-collapse my-3 text-sm;
+	}
+	.ed-table td {
+		@apply border border-zinc-300 px-2 py-1 align-top;
+	}
+	.ed-text a,
+	.ed-notes a:not([href^="#"]) {
+		@apply text-accent-600 underline;
+	}
+	.ed-notes li:target {
+		background-color: hsl(45 90% 90%);
+	}
+	/* Rechtsquellen: Artikelnummern der Edition ([1], [2] …), Unterschriften, Spaltenwechsel. */
+	.ed-seg-n {
+		@apply font-sans text-xs text-zszh-500 select-none;
+	}
+	.ed-signed {
+		@apply my-3 text-right italic;
+	}
+	.ed-cb {
+		@apply font-sans text-xs text-zinc-400 mx-0.5 select-none;
+	}
+
+	/* Search-Highlight (vom Server eingefügt) */
+	.tei mark,
+	.kwic em,
+	.tei em.match {
+		background-color: #ffd9e6;
+		@apply not-italic font-medium;
+	}
+}
+
+@keyframes krdb-flash {
+	0%,
+	40% {
+		background-color: hsl(45 90% 80%);
+	}
+	100% {
+		background-color: transparent;
+	}
+}
+
+@media print {
+	header,
+	footer,
+	nav,
+	aside.no-print,
+	.no-print {
+		display: none !important;
+	}
+	.tei {
+		font-size: 11pt;
+	}
+}

@@ -1,0 +1,137 @@
+{
+  "note": "Kuratierte Commons-Porträts für Personen ohne P18 (siehe src/overrides.ts). Nur geprüfte Treffer: richtige Person, Porträt, freie Lizenz.",
+  "entries": [
+    {
+      "id": 20322,
+      "name": "Walter Bräm",
+      "file": "ETH-BIB-Walter Bräm-Com L20-0941-0011.tif",
+      "basis": "Wikidata-Item ohne P18; Commons-Name (ETH Comet): «Nationalrat (ZH)», 1971; Lizenz CC BY-SA 4.0; geprüft 2026-10-13"
+    },
+    {
+      "id": 17370,
+      "name": "Daniel Sommer",
+      "file": "Daniel Sommer, EVP, 2022.jpg",
+      "basis": "Wikidata-Item mit P18, noch ohne P13468 Q113396531; Wikidata-Item ohne P13468 (P18): Wikidata-Dublette Q131948277 (ohne Bild); Lizenz CC BY-SA 4.0; geprüft 2026-10-13"
+    },
+    {
+      "id": 22742,
+      "name": "Thomas Heiniger",
+      "file": "Thomas heiniger.jpg",
+      "basis": "Wikidata-Item ohne P18; Commons-Name (Kategorie ohne Wikidata): «Porträtfoto von Thomas Heiniger», 2006; Lizenz CC BY-SA 3.0; geprüft 2026-10-13"
+    },
+    {
+      "id": 22766,
+      "name": "Thomas Vogel",
+      "file": "Thomas Vogel.jpg",
+      "basis": "Wikidata-Item mit P18, noch ohne P13468 Q19840869; Wikidata-Item ohne P13468 (P18): FDP-Fraktionspräsident; Lizenz CC BY-SA 4.0; geprüft 2026-10-13"
+    },
+    {
+      "id": 22190,
+      "name": "Sonja Gehrig Schmidt",
+      "file": "Sonja Gehrig, 2018.jpg",
+      "basis": "Wikidata-Item mit P18, noch ohne P13468 Q68009660; Wikidata-Item ohne P13468 (P18): GLP; Lizenz CC BY-SA 4.0; geprüft 2026-10-13"
+    },
+    {
+      "id": 22760,
+      "name": "Erich Vontobel",
+      "file": "Erich Vontobel.jpg",
+      "basis": "Wikidata-Item mit P18, noch ohne P13468 Q123682757; Wikidata-Item ohne P13468 (P18): offizielles NR-Porträt EDU/ZH; Lizenz Attribution; geprüft 2026-10-13"
+    },
+    {
+      "id": 23397,
+      "name": "Nathalie Rickli",
+      "file": "Natalierickli.jpg",
+      "basis": "Wikidata-Item mit P18, noch ohne P13468 Q117165; Wikidata-Item ohne P13468 (P18): Regierungsrätin; Item-Label «Natalie»; Lizenz Attribution; geprüft 2026-10-13"
+    },
+    {
+      "id": 23388,
+      "name": "Nina Fehr Düsel",
+      "file": "Nina Fehr Düsel.jpg",
+      "basis": "Wikidata-Item mit P18, noch ohne P13468 Q123353243; Wikidata-Item ohne P13468 (P18): NR-Porträt SVP-ZH; Lizenz Attribution; geprüft 2026-10-13"
+    },
+    {
+      "id": 18830,
+      "name": "Johann Walter Bissegger",
+      "file": "Walter Bissegger.jpg",
+      "basis": "Wikidata-Item ohne P18; P373+Lead(de,fr): Zürcher Wochenchronik ~1899; Lizenz Public domain; geprüft 2026-10-13"
+    },
+    {
+      "id": 20497,
+      "name": "René Truninger",
+      "file": "René Truninger.jpg",
+      "basis": "Wikidata-Item mit P18, noch ohne P13468 Q28955574; Wikidata-Item ohne P13468 (P18): Selbst-Upload; Lizenz CC BY-SA 3.0; geprüft 2026-10-13"
+    },
+    {
+      "id": 21494,
+      "name": "Diethelm Georg Finsler",
+      "file": "Diethelm Georg Finsler.jpg",
+      "basis": "Wikidata-Item ohne P18; P373+Lead(de): Zürcher Wochenchronik ~1899; Lizenz Public domain; geprüft 2026-10-13"
+    },
+    {
+      "id": 20654,
+      "name": "Hans Ulrich Daeniker",
+      "file": "ETH-BIB-Dr. Hans Ulrich Daeniker, Kantonsrat, Freisinnig-Demokratische Partei (FDP), Zollikon-Com LC1501-00D-002-001.tif",
+      "basis": "ohne Wikidata-Item; ETH Comet: «Kantonsrat, FDP, Zollikon» 1987; Lizenz CC BY-SA 4.0; geprüft 2026-10-13"
+    },
+    {
+      "id": 18982,
+      "name": "François Schibli",
+      "file": "ETH-BIB-François Schibli, Kantonsrat, Freisinnig-Demokratische Partei (FDP), Stäfa-Com LC1501-SCH-001-001.tif",
+      "basis": "ohne Wikidata-Item; ETH Comet: «Kantonsrat, FDP, Stäfa» 1987; Lizenz CC BY-SA 4.0; geprüft 2026-10-13"
+    },
+    {
+      "id": 20145,
+      "name": "David Fries",
+      "file": "David Fries.jpg",
+      "basis": "Wikidata-Item ohne P18; Lead(de): Seminardirektor Küsnacht; Lizenz Public domain; geprüft 2026-10-13"
+    },
+    {
+      "id": 23386,
+      "name": "Nicole Barandun-Gross",
+      "file": "Nicole Barandun (2023).jpg",
+      "basis": "Wikidata-Item mit P18, noch ohne P13468 Q113636356; Wikidata-Item ohne P13468 (P18): NR-Porträt Mitte-ZH; Lizenz Attribution; geprüft 2026-10-13"
+    },
+    {
+      "id": 19741,
+      "name": "Hartmann Krauer-Widmer",
+      "file": "ETH-BIB-Krauer, Hartmann (1831-1901)-Portr 16191-107-AL-FL.tif",
+      "basis": "ohne Wikidata-Item; ETH Portr: Name+Geburts-+Todesjahr; Lizenz Public domain; geprüft 2026-10-13"
+    },
+    {
+      "id": 18707,
+      "name": "Jakob Robert Billeter",
+      "file": "Robert Billeter – Foto.jpg",
+      "basis": "Wikidata-Item ohne P18; P373+Lead(de): Schweizer Illustrierte 1917; Lizenz Public domain; geprüft 2026-10-13"
+    },
+    {
+      "id": 17476,
+      "name": "Johann Syz-Landis",
+      "file": "John Syz-Landis.jpg",
+      "basis": "Wikidata-Item mit P18, noch ohne P13468 Q130876318; Wikidata-Item ohne P13468 (P18): Foto ~1870; Lizenz Public domain; geprüft 2026-10-13"
+    },
+    {
+      "id": 19236,
+      "name": "Marionna Schlatter-Schmid",
+      "file": "Marionna Schlatter (2019).jpg",
+      "basis": "Wikidata-Item mit P18, noch ohne P13468 Q67942617; Wikidata-Item ohne P13468 (P18): NR-Porträt PES/ZH; Lizenz Attribution; geprüft 2026-10-13"
+    },
+    {
+      "id": 20881,
+      "name": "Jakob Heinrich Meister",
+      "file": "J. H. Meister Altersbildnis.jpg",
+      "basis": "Wikidata-Item ohne P18; P373: Altersbildnis ~1810; Lizenz Public domain; geprüft 2026-10-13"
+    },
+    {
+      "id": 4178,
+      "name": "Emil Bernhard",
+      "file": "00-Winterthurer Bibliotheken 170155 Emil Bernhard 1922.tif",
+      "basis": "Wikidata-Item ohne P18; Lead(de): Winterthurer Bibliotheken, Foto Hans Jäggli; Lizenz CC BY 4.0; geprüft 2026-10-13"
+    },
+    {
+      "id": 17600,
+      "name": "August Weilenmann",
+      "file": "ETH-BIB-Weilenmann, August (1843-1906)-Portrait-Portr 12015.tif",
+      "basis": "Wikidata-Item ohne P18; Commons-Name (ETH Portr): Name+Geburts-+Todesjahr; Lizenz Public domain; geprüft 2026-10-13"
+    }
+  ]
+}

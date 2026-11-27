@@ -1,0 +1,26 @@
+{
+  "name": "zszh-catalog",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Baut aus dem Export des Online-Archivkatalogs des Staatsarchivs (stazh-scraper) den Meili-Index `catalog`: Datum, Archivplan-Pfad, Verknüpfung mit Plattform-Dokumenten und KRDB-Personen, Entitäten aus NER und Titelschema.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build-catalog": "tsx src/main.ts build",
+    "ner-input": "tsx src/main.ts ner-input",
+    "import": "tsx src/import.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test src/*.test.ts"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^4.5.7",
+    "meilisearch": "^0.45.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

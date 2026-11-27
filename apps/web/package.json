@@ -1,0 +1,37 @@
+{
+  "name": "zszh-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "typecheck": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-node": "^5.2.10",
+    "@sveltejs/kit": "^2.10.0",
+    "@sveltejs/vite-plugin-svelte": "^5.0.1",
+    "@tailwindcss/typography": "^0.5.15",
+    "@tailwindcss/vite": "^4.3.0",
+    "@types/archiver": "^7.0.0",
+    "@types/node": "^22.10.0",
+    "@types/swagger-ui-dist": "^3.30.6",
+    "mdsvex": "^0.12.3",
+    "rehype-slug": "^6.0.0",
+    "svelte": "^5.13.0",
+    "svelte-check": "^4.1.1",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.3"
+  },
+  "dependencies": {
+    "archiver": "^7.0.1",
+    "maxmind": "^5.0.6",
+    "meilisearch": "^0.45.0",
+    "mirador": "^4.0.0",
+    "swagger-ui-dist": "^5.32.6"
+  }
+}

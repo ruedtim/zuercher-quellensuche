@@ -1,0 +1,7 @@
+node_modules/
+# Arbeits-/Ausgabedaten (Index, PDFs, TEI) – nicht committen, das ist Korpus/Cache.
+data/
+pdfs/
+metadata/
+.cache-pdf/
+*.log

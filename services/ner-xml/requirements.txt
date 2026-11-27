@@ -1,0 +1,12 @@
+lxml>=5.0
+pydantic-settings>=2.2,<3
+spacy>=3.7,<3.9
+span_marker>=1.5,<2
+transformers>=4.37,<5
+torch>=2.2
+# pip lässt click/typer bei der spacy-Auflösung teils aus (vgl. ner_job.py) –
+# ohne sie bricht `import spacy` mit ModuleNotFoundError: click.
+click>=8.1
+typer>=0.9
+# SpanMarker-Modell wird zur Laufzeit vom HF-Hub geladen (kein spacy download nötig):
+# team-data-ktzh/span-marker-ktzh-stazh  – siehe .env.example (SM_MODEL)

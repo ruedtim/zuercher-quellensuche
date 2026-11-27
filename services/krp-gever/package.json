@@ -1,0 +1,22 @@
+{
+  "name": "zszh-krp-gever",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Holt Kantonsratsprotokolle ab Mai 1995 aus dem Gever-Web-Service (CMI CDWS) und erzeugt TEI-XML im KRP-Korpusformat (ein Dokument pro Sitzung, ohne Faksimile).",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "fetch": "tsx src/main.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^4.5.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

@@ -1,0 +1,12 @@
+node_modules/
+.DS_Store
+.env
+.env.*
+!.env.example
+infra/.env
+apps/web/.svelte-kit/
+apps/web/build/
+services/*/output/
+services/*/.venv/
+__pycache__/
+.analytics/

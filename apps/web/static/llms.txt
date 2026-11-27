@@ -1,0 +1,156 @@
+# Zürcher Quellensuche – Digitale Zugänge zum Staatsarchiv Kanton Zürich (archivquellen.ch)
+
+Volltext- und semantische Suche in historischen Amtsdokumenten des Kantons Zürich: Amtsblatt (ABl, bisher
+1883–2001, das Staatsarchiv digitalisiert rückwärts), Kantonsratsprotokolle (KRP),
+Gesetzessammlung (OS) und Regierungsratsbeschlüsse (RRB), diese drei seit 1803, dazu die Ratsmanuale (RM) der Stadt und Republik Zürich
+1484–1798. Texte und Metadaten: Public Domain (PDM 1.0; amtliche Erlasse,
+Entscheidungen und Protokolle sind nach Art. 5 URG urheberrechtlich nicht
+geschützt) – Quellen: Staatsarchiv des Kantons Zürich (digitalisierte
+Altbestände, Ratsmanuale) und Kanton Zürich (Open Government Data,
+Spätbestände). Zusätzlich durchsuchbar: Verzeichnungseinheiten des
+Online-Archivkatalogs des Staatsarchivs (Beschreibungen des Staatsarchivs, ohne
+Lizenzangabe – mit Signatur und Permalink zitieren) und die Zürcher Ehedaten
+1524–1800 (Eheeinträge der Kirchenbücher aus dem Online-Archivkatalog, Stand
+9.11.2026; eigene Lizenz CC BY 4.0, Nennung: «Staatsarchiv des Kantons Zürich,
+Zürcher Ehedaten 16.–18. Jahrhundert»)
+sowie zwei Editionen: die Quellen zur Zürcher Geschichte
+1275–1795 und die Zürcher Rechtsquellen 1180–1800 (edierte Quellenstücke mit
+Kommentar; eigene Lizenz je Edition, beide CC BY 4.0; Nennung «Staatsarchiv des
+Kantons Zürich, Quellen zur Zürcher Geschichte (QZH)», Abbildungen gemeinfrei,
+bzw. «Sammlung Schweizerischer Rechtsquellen (Rechtsquellenstiftung des
+Schweizerischen Juristenvereins), Zürcher Rechtsquellen online, Staatsarchiv des
+Kantons Zürich»).
+Betrieb: Tim Rüdiger (inoffizieller Prototyp, kein Angebot des
+Staatsarchivs oder des Kantons Zürich).
+
+## Für MCP-Clients (Claude, ChatGPT, Apertus …)
+
+Ausformulierte Antworten mit Belegen schreibt der eigene KI-Assistent über den MCP-Server. Anleitung:
+https://archivquellen.ch/about/ai
+
+- MCP-Endpunkt (Streamable HTTP, JSON-RPC 2.0 über POST): https://archivquellen.ch/api/mcp
+- `initialize` liefert ausführliche Anweisungen (Bestände, Lücken, Vorgehen,
+  Antwortregeln); der Prompt `recherche` (Argument `frage`) gibt den Ablauf
+  einer gründlichen, belegten Recherche vor.
+- Tools (in dieser Reihenfolge angeboten): search, fetch, fetch_many,
+  catalog_search, passage_search, ehedaten_search, edition_search,
+  keyword_search, semantic_search, list_documents, count_documents, timeline,
+  overview, similar_documents, vector_search, coverage.
+  `search`+`fetch` folgen der ChatGPT-Konvention.
+  `search` ist der föderierte Einstieg: es fragt ALLE Bestände parallel ab
+  (Archivkatalog, Volltexte der Zentralen Serien samt Ratsmanualen, Ehedaten,
+  Editionen), Dokumente und Katalog zugleich wörtlich und nach Bedeutung. Je
+  Treffer `collection` (Bestand) und `ranking` («keyword» = wörtlich,
+  «semantic» = thematischer Nachbar); `totals` nennt die wörtliche Trefferzahl
+  je Bestand, `unavailable` einen Bestand, der gerade nicht lesbar ist. Es filtert nicht und zeigt je Bestand nur wenige Treffer.
+  `fetch`/`fetch_many` lösen jede id auf: nackt ein Dokument
+  (MM_3_1_RRB_1887_2264), mit Präfix eine Katalogeinheit (catalog:669821), ein
+  Eheeintrag (ehe:1999619) oder ein Editionsstück (edition:QZH_401).
+  Grössenordnungen: Archivkatalog 1,26 Mio. Verzeichnungseinheiten (das ganze
+  Archiv, ohne Volltext), Zentrale Serien 0,62 Mio. Dokumente ab 1803 und
+  75'000 Ratsmanual-Sitzungen, 296'000 Eheeinträge, 1'687 Editionsstücke.
+  `passage_search` liefert die
+  passendsten Textstellen zu einer Frage im Originalwortlaut, auch tief in
+  langen Dokumenten (Passagen-Index, Zentrale Serien ohne Ratsmanuale);
+  `list_documents` gibt einen breiten Titel-Überblick zu einem Thema/Namen;
+  `overview` fasst Anzahl, Serien- und Jahresverteilung plus Top-Treffer in
+  einem Aufruf zusammen; `timeline` nennt die Spitzenjahre und warnt vor
+  Digitalisierungslücken (ABl, RRB).
+- `coverage` (ohne Argumente) beschreibt den Server selbst: je Bestand ein Satz
+  zum Inhalt, Umfang und Zeitspanne live aus dem Index, die bekannten Lücken,
+  die zuständigen Werkzeuge je Suchart sowie Lizenz und Nennung. Dieselben Angaben als Ressource
+  `zszh://coverage`.
+- Ergebnisse tragen bei Bedarf ein Feld `hint`: bei 0 Treffern, was ohne Serie,
+  Zeitraum oder Phrase herauskäme bzw. wie oft jedes Wort einzeln vorkommt.
+  `vector_search` ist für Partner-Systeme mit eigenem Query-Embedding
+  (Qwen3-Embedding-0.6B, 1024-dim): reine Vektorsuche
+  auf Passagen-Ebene über den Staatsarchiv-Bestand (ohne die born-digital-
+  Spätbestände); LLM-Clients nutzen stattdessen semantic_search.
+- `keyword_search`, `list_documents`, `count_documents`, `timeline` und
+  `overview` erfassen nur Dokumente mit allen Wörtern der query (Reihenfolge
+  egal), auch im `total`; `semantic_search` reiht nach Bedeutung, `search` zeigt
+  beide Arme nebeneinander.
+  `keyword_search` mit `alternatives`: `totals` je Variante, `total` = grösste
+  davon (untere Grenze der Vereinigung), `count` = gelieferte Treffer.
+- Wichtig: Der Korpus wird mengenmässig von Regierungsratsbeschlüssen des 19. Jh.
+  dominiert. Bei Personen/aktuellen Themen `series`/`dateFrom` setzen, mehrwortige
+  Namen mit `phrase=true`. `field='title'` grenzt auf Titel-Treffer ein
+  (Titelkonventionen schwanken über Serien und Zeit).
+- Ratsmanuale (RM, Sitzungsprotokolle 1484–1798): maschinell transkribiert,
+  Lesefehler möglich; `body`/`text` ist die Lesefassung (Trennungen und
+  Nasalstriche aufgelöst, ß im Wortinnern als ss), die diplomatische Fassung
+  steht in der TEI-Quelle. Daten bis 1700 im alten Stil (julianisch, nicht
+  umgerechnet). Keine Vektoren: mit `series=["RM"]` sucht `semantic_search`
+  lexikalisch, `similar_documents` liefert nichts; alte Schreibweisen über
+  `alternatives` von `keyword_search` abdecken. Namen (`persons`, `places`,
+  `organizations`) sind vereinheitlicht: Personen nur mit Vor- und Nachnamen,
+  Orte unter dem heutigen Namen, Ämter und Gerichte; Nachnamen allein (meist
+  Amtsträger) fehlen dort und stehen nur im Text.
+- `catalog_search`: Online-Archivkatalog des Staatsarchivs (Akten, Urkunden,
+  Pläne, Nachlässe …), die NICHT als Volltext auf der Plattform stehen;
+  Signatur, Titel, Entstehungszeitraum, Bestand, Auszug, Digitalisat-Links,
+  Permalink. Wörtlich (alle Wörter) oder mit `semantic=true`
+  nach Bedeutung (ohne Personendossiers, Ehedaten und Firmen; ohne Trefferzahl). `person`,
+  `place`, `organization` filtern auf automatisch erkannte Namen
+  (Schreibvarianten eingeschlossen, gleichnamige Personen auch). Jede Einheit
+  hat eine Seite https://archivquellen.ch/archivkatalog/<ID> (`links.web`)
+  mit allen veröffentlichten Angaben und dem Archivbaum.
+- `ehedaten_search`: Zürcher Ehedaten 1524–1800 (rund 296'000 Trauungen und
+  Verkündungen aus den Kirchenbüchern). Filter `name` (Bräutigam oder Braut),
+  `braeutigam`, `braut` (alle Wörter des Namens, Schreibvarianten wie
+  Meier/Meyer zählen mit), `herkunft`, `raum` (zh|ch|ausland, Herkunft
+  mindestens einer Person), `kirchgemeinde` («Stadt Zürich» = die
+  Stadtkirchen), `dateFrom`/`dateTo`, `art` (trauung|verkuendung), `query`
+  (Volltext inkl. Zusatzinfo); `groupBy` zählt je Kirchgemeinde, Jahr,
+  Jahrzehnt, Raum, Art oder Überlieferung (`topK=0` = nur zählen). Namen sind
+  vereinheitlicht, Daten bis 1700 julianisch (nicht umgerechnet), ein Eintrag
+  ist eine Trauung oder eine Verkündung – Zählungen zählen Einträge, nicht Ehen;
+  gleiche Namen Jahrzehnte auseinander sind meist verschiedene Personen.
+  `sameMarriage` nennt die übrigen Einträge derselben Ehe (verkündet bzw.
+  eingetragen in der einen, getraut in der anderen Kirchgemeinde) aus der
+  geprüften Liste der Mehrfacheinträge des Staatsarchivs; sie erfasst nur einen
+  Teil dieser Ehen. Lizenz CC BY 4.0, jede Antwort trägt Nennung und Lizenz.
+- `edition_search`: Editionen – Quellen zur Zürcher
+  Geschichte (`qzh`, 790 Stücke 1275–1795, davon 705 Täuferquellen 1530–1609)
+  und Zürcher Rechtsquellen (`ssrq`, 897 Stücke 1180–1800 aus fünf Bänden:
+  Satzungen, Offnungen, Urkunden, Mandate, Gerichtsfälle; zitiert «SSRQ ZH NF
+  II/3 Nr. 47», Nummern je Band; weitere Überlieferungen in `witnesses`):
+  geprüfte Abschriften mit Regest, Kommentar und Anmerkungen. `query` wörtlich
+  im frühneuhochdeutschen Quellentext (alte Schreibungen wie «töuffer», «zů»;
+  Zeichen angeglichen) und in Titel, Regest und Kommentar; `semantic=true` nach
+  Bedeutung über Titel, Schlagwörter, Regest und Kommentar; Filter `person`,
+  `place`, `keyword`, `edition`, `dateFrom`/`dateTo`. Mit `id` («QZH_401»,
+  «SSRQ_ZH_NF_II_3_047»)
+  ein Stück vollständig (Lesefassung, Regest, Kommentar, Anmerkungen, Register,
+  Bilder). Jedes Stück trägt Lizenz und Nennung seiner Edition und den
+  Permalink in der Edition (`url`); Daten wie in der Quelle (bis 1700 alter Stil).
+- Dokumente sind auch als MCP-Ressourcen lesbar (URI-Template
+  `zszh://document/{id}`).
+- Offener Lesezugriff, keine Authentifizierung. Eigenes Kontingent: 300
+  Aufrufe pro Minute je Netz (/24); darüber meldet der Server `rate_limited`
+  mit `retryAfterS`, bei zu vielen gleichzeitigen Aufrufen `busy`. Anfragen bis
+  64 KB, Batches bis 10 Nachrichten.
+
+## Für Agenten mit Funktions-/Tool-Aufrufen (REST + OpenAPI)
+
+- OpenAPI 3.1: https://archivquellen.ch/api/v1/openapi.json
+- API-Referenz (Swagger UI): https://archivquellen.ch/api-doc
+- Dokumentation: https://archivquellen.ch/about/api
+- ChatGPT Custom-GPT „Actions": die OpenAPI-Datei oben direkt importieren.
+- Archivkatalog: https://archivquellen.ch/api/v1/catalog (Verzeichnungseinheiten, eigene Quelle)
+- Ehedaten: https://archivquellen.ch/api/v1/ehedaten (Eheeinträge 1524–1800, CC BY 4.0 mit Nennung)
+- Editionen: https://archivquellen.ch/api/v1/editions (Stücke der Quellen zur Zürcher Geschichte
+  und der Zürcher Rechtsquellen, Lizenz und Nennung je Stück) und /api/v1/editions/{edition}/{id}
+  (ein Stück mit Text, Regest, Kommentar, Anmerkungen, weiteren Überlieferungen).
+  /api/v1/documents/{id} (Ratsmanuale) und /api/v1/catalog/{id} nennen in `editions` die Stücke
+  beider Editionen (CC BY 4.0) mit Link, Lizenz und Nennung je Eintrag.
+
+## Standards-API (DTS 1.0)
+
+- Distributed Text Services (JSON-LD + TEI/XML): https://archivquellen.ch/api/dts
+
+## Nutzung
+
+- Offener Lesezugriff, Rate-Limit ca. 60 Anfragen / 60 s pro Client (REST und
+  DTS; der MCP-Server hat ein eigenes Kontingent, s. o.).
+- Für Massendaten die publizierten Dumps nutzen: https://archivquellen.ch/about/api#bulk-daten

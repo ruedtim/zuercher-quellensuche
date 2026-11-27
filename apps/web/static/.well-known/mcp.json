@@ -1,0 +1,8 @@
+{
+  "name": "Zürcher Quellensuche",
+  "description": "Volltext- und semantische Suche in historischen Amtsdokumenten des Kantons Zürich (Kantonsratsprotokolle, Gesetzessammlung, Regierungsratsbeschlüsse seit 1803, Amtsblatt bisher 1883–2001), dazu die Ratsmanuale der Stadt Zürich 1484–1798, der Online-Archivkatalog des Staatsarchivs, die Zürcher Ehedaten 1524–1800 und edierte Quellenstücke. Werkzeuge für eigene KI-Assistenten.",
+  "endpoint": "https://archivquellen.ch/api/mcp",
+  "transport": "streamable-http",
+  "authentication": "none",
+  "documentation": "https://archivquellen.ch/about/ai"
+}

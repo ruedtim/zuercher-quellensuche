@@ -1,0 +1,3 @@
+node_modules/
+# Roh-Export, HTTP-Cache, Report und Evaluations-CSV – Arbeitsdaten, nicht committen.
+output/

@@ -1,0 +1,20 @@
+{
+  "name": "zszh-os-zhlex",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Lädt die ab 1999 auf ZH-Lex (zh.ch) publizierte Offizielle Gesetzessammlung (Serie OS) und erzeugt TEI-XML im OS-Korpusformat (ein Dokument pro Erlass-Publikation, ohne Faksimile). Teilbestand os-late, analog zu rrb-zhweb.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "fetch": "tsx src/main.ts",
+    "scrape": "tsx src/scrape.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
